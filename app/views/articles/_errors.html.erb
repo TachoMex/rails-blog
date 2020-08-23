@@ -1,0 +1,8 @@
+<% if @article.errors.any? %>
+  <p>Invalid article:</p>
+  <ul>
+    <% @article.errors.full_messages.each do |er| %>
+      <li> <%= er %> </li>
+    <% end %>
+  </ul>
+<% end %>
