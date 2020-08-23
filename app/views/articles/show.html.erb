@@ -1,17 +1,18 @@
-<table>
-    <tr>
-      <td> <label> ID: </label></td>
-      <td> <label> <%= @article.id %> </label> </td>
-    </tr>
-    <tr>
-      <td> <label> Title: </label></td>
-      <td> <label> <%= @article.title %> </label> </td>
-    </tr>
-    <tr>
-      <td> <label> Description: </label></td>
-      <td> <label> <%= @article.description %> </label> </td>
-    </tr>
-</table>
-<p>
-  <%= link_to "Go Back", articles_path %>
-</p>
+<h2 class="card-title text-center"><%= @article.title %></h2>
+<div class="card text-center shadow mb-5 bg-white rounded">
+  <div class="card-header font-italic">
+    by Tacho
+  </div>
+  <div class="card-body text-left">
+    <p class="card-text"><%= simple_format(@article.description) %></p>
+    <div class="btn-group" role="group">
+      <%= link_to "Edit", edit_article_path(@article), class: 'btn btn-outline-info' %>
+      <%= link_to "Go Back", articles_path, class: 'btn btn-outline-info' %>
+      <%= link_to "Delete", article_path(@article), class: 'btn btn-outline-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
+    </div>
+  </div>
+  <div class="card-footer text-muted">
+    Last Updated <%= @article.updated_at %>,
+    Created at <%= @article.created_at %>
+  </div>
+</div>
