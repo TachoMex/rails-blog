@@ -1,0 +1,17 @@
+<table>
+    <tr>
+      <td> <label> ID: </label></td>
+      <td> <label> <%= @article.id %> </label> </td>
+    </tr>
+    <tr>
+      <td> <label> Title: </label></td>
+      <td> <label> <%= @article.title %> </label> </td>
+    </tr>
+    <tr>
+      <td> <label> Description: </label></td>
+      <td> <label> <%= @article.description %> </label> </td>
+    </tr>
+</table>
+<p>
+  <%= link_to "Go Back", articles_path %>
+</p>
