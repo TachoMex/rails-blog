@@ -7,4 +7,11 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false },
                     format: { with: URI::MailTo::EMAIL_REGEXP }
   has_many :articles
+
+  has_secure_password
+
+  before_save do
+    email.downcase!
+    username.downcase!
+  end
 end
