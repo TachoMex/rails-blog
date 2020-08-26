@@ -1,5 +1,7 @@
 <h1 class="text-center mt-4"> The Sages </h1>
 
+<%= render 'common/paginator', list: @users %>
+
 <% @users.each do |user| %>
   <div class="row justify-content-md-center">
     <div class="col-8 mt-4">
@@ -21,3 +23,5 @@
     </div>
   </div>
 <% end %>
+
+<%= render 'common/paginator', list: @users %>
