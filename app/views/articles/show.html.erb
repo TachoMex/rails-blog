@@ -1,7 +1,10 @@
 <h2 class="card-title text-center"><%= @article.title %></h2>
 <div class="card text-center shadow mb-5 bg-white rounded">
   <div class="card-header font-italic">
-    by <%= @article.user.username %>
+    by <%= link_to @article.user.username, @article.user %>
+    <p class="text-center mt-4">
+      <%= link_to gravatar_for(@article.user), @article.user %>
+    </p>
   </div>
   <div class="card-body text-left">
     <p class="card-text"><%= simple_format(@article.description) %></p>

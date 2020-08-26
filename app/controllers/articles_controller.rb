@@ -40,7 +40,7 @@ class ArticlesController < ActionController::Base
 
   def destroy
     @article.destroy
-    redirect_to articles_path
+    redirect_to request.referrer
   end
 
   private

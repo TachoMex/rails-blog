@@ -8,12 +8,10 @@
           <%= link_to user.username, user %>
         </div>
         <div class="card-body">
-          <p class="card-text"><%= gravatar_for(user, size: 80) %></p>
+          <p class="card-text"><%= link_to gravatar_for(user, size: 80), user %></p>
           <p class="card-text"><%= pluralize(user.articles.count, 'article') %></p>
           <div class="btn-group" role="group">
-            <%= link_to "details", user_path(user), class: 'btn btn-outline-success' %>
-            <%= link_to "edit", edit_user_path(user), class: 'btn btn-outline-info' %>
-            <%= link_to "delete", user_path(user), class: 'btn btn-outline-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
+            <%= link_to "View Profile", user_path(user), class: 'btn btn-success' %>
           </div>
         </div>
         <div class="card-footer text-muted">
