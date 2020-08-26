@@ -12,8 +12,10 @@
           <p class="card-text"><%= truncate(article.description, length: 140) %></p>
           <div class="btn-group" role="group">
             <%= link_to "details", article_path(article), class: 'btn btn-outline-success' %>
-            <%= link_to "edit", edit_article_path(article), class: 'btn btn-outline-info' %>
-            <%= link_to "delete", article_path(article), class: 'btn btn-outline-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% if logged_in? && current_user == article.user %>
+              <%= link_to "edit", edit_article_path(article), class: 'btn btn-outline-info' %>
+              <%= link_to "delete", article_path(article), class: 'btn btn-outline-danger', method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
           </div>
         </div>
         <div class="card-footer text-muted">

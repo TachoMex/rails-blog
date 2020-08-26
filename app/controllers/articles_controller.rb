@@ -3,6 +3,8 @@ class ArticlesController < ActionController::Base
 
   before_action :find_article, only: %i[show edit update destroy]
 
+  include ApplicationHelper
+
   def index
     @articles = Article.paginate(page: params[:page], per_page: 3)
   end
@@ -15,9 +17,7 @@ class ArticlesController < ActionController::Base
 
   def create
     @article = Article.new(build_params)
-    user = User.first
-
-    ### Temporary Asign to first user
+    user = current_user
     @article.user = user
     if @article.save
       flash[:notice] = 'Article added'
