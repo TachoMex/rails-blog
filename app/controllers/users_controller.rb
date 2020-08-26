@@ -7,6 +7,10 @@ class UsersController < ActionController::Base
     @user = User.new
   end
 
+  def show
+    @articles = @user.articles
+  end
+
   def create
     @user = User.new(build_params)
     if @user.save
