@@ -15,6 +15,10 @@ class ArticlesController < ActionController::Base
 
   def create
     @article = Article.new(build_params)
+    user = User.first
+
+    ### Temporary Asign to first user
+    @article.user = user
     if @article.save
       flash[:notice] = 'Article added'
       redirect_to @article

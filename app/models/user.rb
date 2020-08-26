@@ -6,4 +6,5 @@ class User < ApplicationRecord
                     length: { minimum: 4, maximum: 105 },
                     uniqueness: { case_sensitive: false },
                     format: { with: URI::MailTo::EMAIL_REGEXP }
+  has_many :articles
 end
