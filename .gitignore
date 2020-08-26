@@ -44,3 +44,4 @@ tmp/
 storage/
 vendor/
 log/
+coverage/

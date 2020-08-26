@@ -50,6 +50,7 @@ group :test do
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
   # Use sqlite3 as the database for Active Record
+  gem 'simplecov', '~> 0.18.5'
   gem 'sqlite3', '~> 1.4'
 end
 
