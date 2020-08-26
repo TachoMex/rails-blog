@@ -2,6 +2,8 @@ class ArticlesController < ActionController::Base
   layout 'application'
 
   before_action :find_article, only: %i[show edit update destroy]
+  before_action :require_login, except: %i[index show]
+  before_action :check_user, only: %i[edit update destroy]
 
   include ApplicationHelper
 
@@ -51,5 +53,9 @@ class ArticlesController < ActionController::Base
 
   def build_params
     params.require(:article).permit(:title, :description)
+  end
+
+  def check_user
+    require_user(@article.user, article_path(@article))
   end
 end
