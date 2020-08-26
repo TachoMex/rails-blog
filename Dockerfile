@@ -17,6 +17,8 @@ RUN bundle install
 
 COPY . .
 
+RUN openssl genrsa 2048 > ./storage/jwt.pem
+
 RUN rails db:migrate
 
 ENTRYPOINT ["rails","server","-b","0.0.0.0"]
