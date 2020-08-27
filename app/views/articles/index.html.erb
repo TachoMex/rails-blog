@@ -1,5 +1,7 @@
 <h1 class="text-center mt-4"> The knowledge </h1>
 
+<%= link_to 'Categories', categories_path, class: 'btn btn-outline-info' %>
+
 <%= render 'articles/list' %>
 
 <%= link_to "Add new article", new_article_path, class: 'btn btn-info ' if logged_in? %>

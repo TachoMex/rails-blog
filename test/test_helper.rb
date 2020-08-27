@@ -47,3 +47,24 @@ module ActiveSupport
     # Add more helper methods to be used by all tests here...
   end
 end
+
+TEST_USER_DATA = {
+  username: 'tacho', email: 'tachoguitar@gmail.com', password: 'secret'
+}.freeze
+
+TEST_SESSION_DATA = {
+  username: 'tachoguitar@gmail.com',
+  password: 'secret'
+}.freeze
+
+TEST_ARTICLE_DATA = {
+  title: 'the testing importance',
+  description: 'To test the code is very important'
+}.freeze
+
+def login!
+  user = User.create(::TEST_USER_DATA)
+  user.save
+  post '/login', { params: { session: ::TEST_SESSION_DATA } }
+  user
+end

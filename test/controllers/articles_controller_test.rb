@@ -3,23 +3,11 @@
 require('test_helper')
 
 class ArticlesControllerTest < ActionDispatch::IntegrationTest
-  TEST_ARTICLE_DATA = {
-    title: 'the testing importance',
-    description: 'To test the code is very important'
-  }.freeze
-
-  TEST_SESSION_DATA = {
-    username: 'tachoguitar@gmail.com',
-    password: 'secret'
-  }.freeze
-
   setup do
-    @user = User.create(UsersControllerTest::TEST_USER_DATA)
-    @article = Article.create(TEST_ARTICLE_DATA)
+    @user = login!
+    @article = Article.create(::TEST_ARTICLE_DATA)
     @article.user = @user
-    @user.save
     @article.save
-    post '/login', { params: { session: TEST_SESSION_DATA } }
   end
 
   test 'should get index' do
@@ -34,7 +22,7 @@ class ArticlesControllerTest < ActionDispatch::IntegrationTest
 
   test 'should create article' do
     assert_difference('Article.count') do
-      post articles_url, params: { article: TEST_ARTICLE_DATA }
+      post articles_url, params: { article: ::TEST_ARTICLE_DATA }
     end
 
     assert_redirected_to article_url(Article.last)

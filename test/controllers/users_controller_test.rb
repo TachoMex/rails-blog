@@ -3,17 +3,8 @@
 require('test_helper')
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
-  TEST_USER_DATA = {
-    username: 'tacho', email: 'tachoguitar@gmail.com', password: 'secret'
-  }.freeze
-
-  TEST_SESSION_DATA = {
-    username: 'tachoguitar@gmail.com',
-    password: 'secret'
-  }.freeze
-
   setup do
-    @user = User.create(TEST_USER_DATA)
+    @user = User.create(::TEST_USER_DATA)
   end
 
   test 'should get index' do
@@ -27,7 +18,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should create user' do
-    data = TEST_USER_DATA.dup
+    data = ::TEST_USER_DATA.dup
     data[:username] = 'test'
     data[:email] = 'example@mail.com'
     assert_difference('User.count') do
@@ -55,12 +46,4 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     patch user_url(@user), params: { user: { password: 'new_pass' } }
     assert_redirected_to user_url(@user)
   end
-
-  # test "should destroy user" do
-  #   assert_difference('User.count', -1) do
-  #     delete user_url(@user)
-  #   end
-  #
-  #   assert_redirected_to users_url
-  # end
 end

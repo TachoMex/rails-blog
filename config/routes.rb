@@ -6,10 +6,12 @@ Rails.application.routes.draw do
   resources :articles
 
   get 'signup', to: 'users#new'
-  resources :users, except: [:new]
+  resources :users, except: %i[new destroy]
 
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
   get 'logout', to: 'sessions#destroy'
+
+  resources :categories, except: %i[destroy edit update]
 end
