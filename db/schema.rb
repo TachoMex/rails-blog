@@ -12,26 +12,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_200_826_205_943) do
+ActiveRecord::Schema.define(version: 20_200_827_051_350) do
+  create_table 'article_classifications', force: :cascade do |t|
+    t.integer 'article_id'
+    t.integer 'category_id'
+  end
+
   create_table 'articles', force: :cascade do |t|
-    t.string('title')
-    t.text('description')
-    t.datetime('created_at', default: '2020-08-23 22:32:14', null: false)
-    t.datetime('updated_at', default: '2020-08-23 22:32:14', null: false)
-    t.integer('user_id')
+    t.string 'title'
+    t.text 'description'
+    t.datetime 'created_at', default: '2020-08-23 22:32:14', null: false
+    t.datetime 'updated_at', default: '2020-08-23 22:32:14', null: false
+    t.integer 'user_id'
   end
 
   create_table 'categories', force: :cascade do |t|
-    t.string('name')
-    t.datetime('created_at', precision: 6, null: false)
-    t.datetime('updated_at', precision: 6, null: false)
+    t.string 'name'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
   end
 
   create_table 'users', force: :cascade do |t|
-    t.string('username', null: false)
-    t.string('email', null: false)
-    t.string('password_digest', null: false)
-    t.datetime('created_at', precision: 6, null: false)
-    t.datetime('updated_at', precision: 6, null: false)
+    t.string 'username', null: false
+    t.string 'email', null: false
+    t.string 'password_digest', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
   end
 end
