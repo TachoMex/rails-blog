@@ -45,3 +45,5 @@ storage/
 vendor/
 log/
 coverage/
+license_report.html
+doc

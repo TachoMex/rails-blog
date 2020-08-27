@@ -49,3 +49,6 @@ spec/tmp
 vendor/assets/bower_components
 *.bowerrc
 bower.json
+test
+license_report.html
+doc/
