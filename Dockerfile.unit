@@ -1,0 +1,6 @@
+FROM articles:latest
+
+RUN bundle config set without ''
+RUN bundle install
+ADD test .
+ENTRYPOINT ["sh","test.sh"]

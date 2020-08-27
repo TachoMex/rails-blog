@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SessionsController < ActionController::Base
   layout 'application'
 
@@ -11,11 +13,11 @@ class SessionsController < ActionController::Base
     end
 
     def jwt
-      JWT.encode payload, rsa_private, 'RS512'
+      JWT.encode(payload, rsa_private, 'RS512')
     end
 
     def self.parse(token)
-      payload, = JWT.decode token, nil, false, { algorithm: 'RS512' }
+      payload, = JWT.decode(token, nil, false, { algorithm: 'RS512' })
       new(User.find(payload['user']['id']))
     rescue StandardError => e
       raise unless ['Nil JSON web token'].include?(e.message)
@@ -43,26 +45,36 @@ class SessionsController < ActionController::Base
   end
 
   def new
-    redirect_to articles_path if logged_in?
+    redirect_to(articles_path) if logged_in?
+  end
+
+  def find_user(username)
+    User.find_by(email: username) || User.find_by(username: username)
+  end
+
+  def authenticate?(credentials)
+    user = find_user(credentials[:username])
+    user&.authenticate(credentials[:password]) && user
+  end
+
+  def build_session(user)
+    session[:jwt] = Token.new(user).jwt
   end
 
   def create
-    credentials = params[:session]
-    user = User.find_by(email: credentials[:username]) ||
-           User.find_by(username: credentials[:username])
-    if user&.authenticate(credentials[:password])
-      session[:jwt] = Token.new(user).jwt
+    if (user = authenticate?(params[:session]))
+      build_session(user)
       flash[:notice] = "Welcome #{user.username}. What are we gonna do tonight?"
-      redirect_to user
+      redirect_to(user)
     else
       flash.now[:alert] = 'Invalid Credentials'
-      render 'new'
+      render('new')
     end
   end
 
   def destroy
     session[:jwt] = nil
     flash.now[:alert] = 'Good bye!'
-    render 'new'
+    render('new')
   end
 end

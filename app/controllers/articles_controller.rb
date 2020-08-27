@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ArticlesController < ActionController::Base
   layout 'application'
 
@@ -23,9 +25,9 @@ class ArticlesController < ActionController::Base
     @article.user = user
     if @article.save
       flash[:notice] = 'Article added'
-      redirect_to @article
+      redirect_to(@article)
     else
-      render 'new'
+      render('new')
     end
   end
 
@@ -34,15 +36,15 @@ class ArticlesController < ActionController::Base
   def update
     if @article.update(build_params)
       flash[:notice] = 'Updated correctly'
-      redirect_to @article
+      redirect_to(@article)
     else
-      render 'edit'
+      render('edit')
     end
   end
 
   def destroy
     @article.destroy
-    redirect_to request.referrer || articles_path
+    redirect_to(request.referrer || articles_path)
   end
 
   private

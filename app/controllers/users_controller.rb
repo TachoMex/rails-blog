@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UsersController < ActionController::Base
   layout 'application'
 
@@ -22,9 +24,9 @@ class UsersController < ActionController::Base
     @user = User.new(build_params)
     if @user.save
       flash[:notice] = "You signup was successful. Welcome #{@user.username}!"
-      redirect_to articles_path
+      redirect_to(articles_path)
     else
-      render 'new'
+      render('new')
     end
   end
 
@@ -33,16 +35,16 @@ class UsersController < ActionController::Base
   def update
     if @user.update(build_params)
       flash[:notice] = 'Updated correctly'
-      redirect_to @user
+      redirect_to(@user)
     else
-      render 'edit'
+      render('edit')
     end
   end
 
   private
 
   def find_user
-    puts "Finding user #{params[:id]}"
+    puts("Finding user #{params[:id]}")
     @user = User.find(params[:id])
   end
 
