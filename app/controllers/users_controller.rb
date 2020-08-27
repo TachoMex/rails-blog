@@ -42,6 +42,7 @@ class UsersController < ActionController::Base
   private
 
   def find_user
+    puts "Finding user #{params[:id]}"
     @user = User.find(params[:id])
   end
 

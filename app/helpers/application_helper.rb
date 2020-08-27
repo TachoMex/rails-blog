@@ -22,8 +22,7 @@ module ApplicationHelper
   end
 
   def require_user(user, domain)
-    return if user == @current_user
-
+    return if user == current_user
     flash[:alert] = 'You are not allowed to perform this action'
     redirect_to domain
   end
