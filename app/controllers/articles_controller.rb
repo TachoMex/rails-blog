@@ -54,7 +54,7 @@ class ArticlesController < ActionController::Base
   end
 
   def build_params
-    params.require(:article).permit(:title, :description)
+    params.require(:article).permit(:title, :description, category_ids: [])
   end
 
   def check_user

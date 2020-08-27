@@ -26,7 +26,7 @@ class CategoriesController < ActionController::Base
 
   def show
     @category = Category.find(params[:id])
-    @articles = []
+    @articles = @category.articles.paginate(page: params[:page], per_page: 3)
     redirect_to(categories_path) if @category.nil?
   end
 

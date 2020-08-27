@@ -9,6 +9,7 @@
         <div class="card-body">
           <%= link_to category.name.titleize, category, class: '' %>
         </div>
+        <p class="card-text"><%= pluralize(category.articles.count, 'article') %></p>
         <div class="card-footer text-muted">
           Created at <%= category.created_at %>
         </div>

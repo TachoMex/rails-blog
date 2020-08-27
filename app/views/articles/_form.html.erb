@@ -7,10 +7,19 @@
       <%= f.text_field :title, class: 'form-control', placeholder: 'Write a cool title' %>
     </div>
   </div>
+
   <div class="form-group row">
     <%= f.label :description, class: 'col-2 col-form-label' %>
     <div class="col-10 rows-10">
       <%= f.text_area :description, rows: 10, class: 'form-control', placeholder: 'Set free those ideas' %>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <%= f.label :category, class: 'col-2 col-form-label' %>
+    <div class="col-10 rows-10">
+      <%= f.collection_select(:category_ids, Category.all, :id, :name,
+      { prompt: 'Select categories'}, { class: 'custom-select shadow rounded', multiple: true, size: 3 }) %>
     </div>
   </div>
 
