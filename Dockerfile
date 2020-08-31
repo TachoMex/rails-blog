@@ -1,23 +1,25 @@
-FROM ruby:2.7.1-alpine
+FROM ruby:2.7.1-alpine as builder
 
 RUN bundle config --global frozen 1 && \
     bundle config set without 'test development' && \
     apk add --no-cache --update build-base tzdata yarn openssl mysql-dev
-
-COPY Gemfile Gemfile.lock ./
-
+RUN mkdir -p /app
+WORKDIR /app
+COPY Gemfile Gemfile.lock /app/
 ENV RAILS_ENV=production
+RUN bundle install --jobs=4
+COPY . /app/
+RUN rake assets:precompile && rm -rf node_modules tmp /usr/local/bundle/cache /usr/local/bundle/doc
+RUN openssl genrsa 2048 > /app/storage/jwt.pem
 
-RUN bundle install
-
-COPY . .
-
-RUN openssl genrsa 2048 > ./storage/jwt.pem
-
-RUN rake assets:precompile
+#===============================================================================
+FROM ruby:2.7.1-alpine
+RUN apk add --no-cache --update mysql-dev tzdata openssl
+RUN mkdir -p /app
+WORKDIR /app
+COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
+COPY --from=builder /app/ /app/
 
 EXPOSE 3000
-
-RUN rm -rf node_modules
 
 ENTRYPOINT ["sh","entrypoint.sh"]

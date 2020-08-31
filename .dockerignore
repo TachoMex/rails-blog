@@ -51,4 +51,6 @@ vendor/assets/bower_components
 bower.json
 test
 license_report.html
-doc/
+doc
+node_modules
+tmp
