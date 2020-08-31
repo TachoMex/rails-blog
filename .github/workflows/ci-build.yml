@@ -2,7 +2,7 @@ env:
   RUBY_VERSION: 2.7.1
 
 name: CI build
-on: [push, pull_request]
+on: [push]
 jobs:
   rubocop:
     name: Run rubocop
