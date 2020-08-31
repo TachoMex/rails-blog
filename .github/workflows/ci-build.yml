@@ -1,0 +1,53 @@
+env:
+  RUBY_VERSION: 2.7.1
+
+name: CI build
+on: [push, pull_request]
+jobs:
+  rubocop:
+    name: Run rubocop
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Install rubocop
+        run: gem install rubocop
+      - name: run rubocop
+        run: rubocop .
+  critic:
+    name: Run ruby critic
+    runs-on: ubuntu-18.04
+    needs: rubocop
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: Install rubycritic
+        run: gem install rubycritic
+      - name: run rubycritic
+        run: rubycritic .
+  tests:
+    name: Run unit tests
+    runs-on: ubuntu-18.04
+    needs: critic
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+      - name: install rails dependencies
+        run: sudo apt install build-essential libsqlite3-dev tzdata yarn openssl libmysqlclient-dev
+      - name: install dependencies
+        run: |
+          yarn install --check-files
+          gem install bundler
+          bundler install
+      - name: run tests
+        run: |
+          mkdir storage
+          openssl genrsa 2048 > ./storage/jwt.pem
+          RAILS_ENV=test bundle exec rake db:migrate
+          bundle exec rake test
