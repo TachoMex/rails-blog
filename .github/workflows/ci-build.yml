@@ -1,6 +1,5 @@
 env:
   RUBY_VERSION: 2.7.1
-  DOCKER_BUILDKIT: true
 
 name: CI build
 on: [push]
@@ -21,51 +20,30 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
           image-name: ${{ github.event.repository.name }} # Provide Docker image name
           image-tag: ${{ steps.extract_branch.outputs.branch }} # Provide Docker image tag
-  rubocop:
-    name: Run rubocop
-    runs-on: ubuntu-latest
-    needs: dockerbuild
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-ruby@v1
-        with:
-          ruby-version: ${{ env.RUBY_VERSION }}
-      - name: Install rubocop
-        run: gem install rubocop
-      - name: run rubocop
-        run: rubocop .
-  critic:
-    name: Run ruby critic
-    runs-on: ubuntu-latest
-    needs: rubocop
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-ruby@v1
-        with:
-          ruby-version: ${{ env.RUBY_VERSION }}
-      - name: Install rubycritic
-        run: gem install rubycritic
-      - name: run rubycritic
-        run: rubycritic .
   tests:
     name: Run unit tests
     runs-on: ubuntu-latest
-    needs: critic
+    needs: dockerbuild
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-ruby@v1
+      - uses: actions/checkout@v2
         with:
-          ruby-version: ${{ env.RUBY_VERSION }}
-      - name: install rails dependencies
-        run: sudo apt install build-essential libsqlite3-dev tzdata yarn openssl libmysqlclient-dev
-      - name: install dependencies
-        run: |
-          yarn install --check-files
-          gem install bundler
-          bundler install
-      - name: run tests
-        run: |
-          mkdir storage
-          openssl genrsa 2048 > ./storage/jwt.pem
-          RAILS_ENV=test bundle exec rake db:migrate
-          bundle exec rake test
+          fetch-dept: 0
+      - uses: docker-practice/actions-setup-docker@0.0.1
+      - uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: Build docker image
+        run: docker build -t unit -f Dockerfile.unit --build-arg TAG=${{ steps.extract_branch.outputs.branch }}  .
+      - name: Run the validations
+        run: docker run -v `pwd`/test:/app/test -v `pwd`/.git:/app/.git -v `pwd`/coverage:/app/coverage unit
+      - name: Publish build reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-reports
+          path: coverage # or path/to/artifact

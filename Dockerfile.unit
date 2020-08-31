@@ -1,23 +1,13 @@
-FROM ruby:2.7.1-alpine
+ARG TAG=latest
+FROM docker.pkg.github.com/tachomex/rails-blog/rails-blog:$TAG
 
 RUN bundle config --global frozen 1 && \
-    bundle config set without 'test development' && \
-    apk add --no-cache --update build-base tzdata yarn openssl mysql-dev
+    bundle config unset without && \
+    apk add --no-cache --update build-base tzdata yarn openssl mysql-dev sqlite-dev
+COPY Gemfile Gemfile.lock /app/
+WORKDIR /app
+RUN bundle install --jobs=4
+RUN gem install rubocop rubycritic license_finder
+ENV RAILS_ENV=test
 
-COPY Gemfile Gemfile.lock ./
-
-ENV RAILS_ENV=production
-
-RUN bundle install
-
-COPY . .
-
-RUN openssl genrsa 2048 > ./storage/jwt.pem
-
-RUN rake assets:precompile
-
-EXPOSE 3000
-
-RUN rm -rf node_modules
-
-ENTRYPOINT ["sh","entrypoint.sh"]
+ENTRYPOINT ["sh","-e","test.sh"]
