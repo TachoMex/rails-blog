@@ -1,12 +1,30 @@
 env:
   RUBY_VERSION: 2.7.1
+  DOCKER_BUILDKIT: true
 
 name: CI build
-on: [push, pull_request]
+on: [push]
 jobs:
+  dockerbuild:
+    name: Build Dockerfile
+    runs-on: ubuntu-latest
+    # if: github.ref == 'refs/heads/master' # Running this job only for develop branch
+    steps:
+      - uses: actions/checkout@v2 # Checking out the repo
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: Build and Publish head Docker image
+        uses: VaultVulp/gp-docker-action@1.1.6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
+          image-name: ${{ github.event.repository.name }} # Provide Docker image name
+          image-tag: ${{ steps.extract_branch.outputs.branch }} # Provide Docker image tag
   rubocop:
     name: Run rubocop
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
+    needs: dockerbuild
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-ruby@v1
@@ -18,7 +36,7 @@ jobs:
         run: rubocop .
   critic:
     name: Run ruby critic
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     needs: rubocop
     steps:
       - uses: actions/checkout@v1
@@ -31,7 +49,7 @@ jobs:
         run: rubycritic .
   tests:
     name: Run unit tests
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     needs: critic
     steps:
       - uses: actions/checkout@v1
