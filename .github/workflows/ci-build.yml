@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-dept: 0
+          fetch-depth: 0
       - uses: docker-practice/actions-setup-docker@0.0.1
       - uses: docker/login-action@v1
         with:
@@ -47,3 +47,11 @@ jobs:
         with:
           name: build-reports
           path: coverage # or path/to/artifact
+  remove-package-versions:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Remove package versions
+      id: remove-package-versions
+      uses: navikt/remove-package-versions@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
