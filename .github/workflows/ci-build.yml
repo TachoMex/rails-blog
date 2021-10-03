@@ -1,5 +1,5 @@
 env:
-  RUBY_VERSION: 2.7.1
+  RUBY_VERSION: 2.7.4
 
 name: CI build
 on: [push]
@@ -47,11 +47,11 @@ jobs:
         with:
           name: build-reports
           path: coverage # or path/to/artifact
-  remove-package-versions:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Remove package versions
-      id: remove-package-versions
-      uses: navikt/remove-package-versions@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # remove-package-versions:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Remove package versions
+  #     id: remove-package-versions
+  #     uses: navikt/remove-package-versions@main
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
