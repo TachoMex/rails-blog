@@ -10,6 +10,7 @@ class User < ApplicationRecord
             length: { minimum: 4, maximum: 105 },
             uniqueness: { case_sensitive: false },
             format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :borndate, presence: true
   has_many :articles
 
   has_secure_password

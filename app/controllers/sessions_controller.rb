@@ -49,7 +49,7 @@ class SessionsController < ActionController::Base
   end
 
   def find_user(username)
-    User.find_by(email: username) || User.find_by(username: username)
+    User.find_by(email: username) || User.find_by(username:)
   end
 
   def authenticate?(credentials)

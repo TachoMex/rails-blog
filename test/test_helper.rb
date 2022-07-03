@@ -33,8 +33,6 @@ module ActiveSupport
 end
 
 ENV['RAILS_ENV'] ||= 'test'
-require_relative('../config/environment')
-require('rails/test_help')
 
 module ActiveSupport
   class TestCase
@@ -49,7 +47,7 @@ module ActiveSupport
 end
 
 TEST_USER_DATA = {
-  username: 'tacho', email: 'tachoguitar@gmail.com', password: 'secret'
+  username: 'tacho', email: 'tachoguitar@gmail.com', password: 'secret', borndate: Date.new(1, 1, 1)
 }.freeze
 
 TEST_SESSION_DATA = {
@@ -65,6 +63,6 @@ TEST_ARTICLE_DATA = {
 def login!
   user = User.create(::TEST_USER_DATA)
   user.save
-  post '/login', { params: { session: ::TEST_SESSION_DATA } }
+  post('/login', params: { session: ::TEST_SESSION_DATA })
   user
 end

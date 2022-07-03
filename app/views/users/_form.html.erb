@@ -19,7 +19,12 @@
       <%= f.password_field :password, class: 'form-control', placeholder: '****' %>
     </div>
   </div>
-
+  <div class="form-group row">
+    <%= f.label :borndate, class: 'col-2 col-form-label' %>
+    <div class="col-10">
+      <%= f.text_field :borndate, class: 'form-control', placeholder: 'YYYY-MM--DD' %>
+    </div>
+  </div>
   <div class="form-group row col-10 justify-content-center">
     <%= f.submit value: button_label, class: 'btn btn-success btn-lg' %>
   </div>

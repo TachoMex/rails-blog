@@ -8,12 +8,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get index' do
-    get users_url
+    get(users_url)
     assert_response :success
   end
 
   test 'should get new' do
-    get '/users/'
+    get('/users/')
     assert_response :success
   end
 
@@ -22,7 +22,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     data[:username] = 'test'
     data[:email] = 'example@mail.com'
     assert_difference('User.count') do
-      post users_url, params: { user: data }
+      post(users_url, params: { user: data })
     end
 
     assert_redirected_to articles_url
@@ -35,15 +35,15 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get edit' do
     @user.save
-    post '/login', { params: { session: TEST_SESSION_DATA } }
+    post('/login', params: { session: TEST_SESSION_DATA })
     get edit_user_url(User.find_by(email: TEST_SESSION_DATA[:username]))
     assert_response :success
   end
 
   test 'should update user' do
     @user.save
-    post '/login', { params: { session: TEST_SESSION_DATA } }
-    patch user_url(@user), params: { user: { password: 'new_pass' } }
-    assert_redirected_to user_url(@user)
+    post('/login', params: { session: TEST_SESSION_DATA })
+    patch(user_url(@user), params: { user: { password: 'new_pass' } })
+    assert_redirected_to(user_url(@user))
   end
 end
