@@ -1,0 +1,53 @@
+schema:
+  models:
+    articles:
+      fields:
+        title:
+          min_size: 4
+          size: 140
+        description:
+          min_size: 4
+      configs:
+        - name: belongs_to
+          models: user
+        - timestamps
+    users:
+      fields:
+        username:
+          size: 32
+          min_size: 4
+          case_sensitive: false
+          not_null: true
+          unique: true
+        borndate:
+          type: string
+          not_null: true
+          index: true
+        email:
+          type: string
+          size: 64
+          min_size: 4
+          regex: email
+          case_sensitive: false
+          not_null: true
+          regex: '\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z'
+          unique: true
+        mobile:
+          type: string
+          not_null: true
+          size: 16
+          unique: true
+      configs:
+        - safe_password
+        - timestamps
+    categories:
+      fields:
+        name:
+          not_null: true
+          min_size: 3
+          size: 32
+          unique: true
+    article_classifications:
+      configs:
+        - name: belongs_to
+          models: [article, category]

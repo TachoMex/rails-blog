@@ -47,7 +47,8 @@ module ActiveSupport
 end
 
 TEST_USER_DATA = {
-  username: 'tacho', email: 'tachoguitar@gmail.com', password: 'secret', borndate: Date.new(1, 1, 1)
+  username: 'tacho', email: 'tacho@gmail.com', password: 'secret', borndate: Date.new(1, 1,
+                                                                                            1), mobile: '4412345678'
 }.freeze
 
 TEST_SESSION_DATA = {

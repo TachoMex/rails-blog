@@ -21,6 +21,7 @@ gem 'jbuilder'
 # gem 'redis' 4.
 # Use Active Model has_secure_password
 gem 'bcrypt'
+gem 'kybus-nanorecord'
 gem 'mysql2'
 gem 'will_paginate'
 

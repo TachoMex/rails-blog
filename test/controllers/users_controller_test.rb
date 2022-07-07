@@ -21,6 +21,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     data = ::TEST_USER_DATA.dup
     data[:username] = 'test'
     data[:email] = 'example@mail.com'
+    data[:mobile] = '5512345678'
     assert_difference('User.count') do
       post(users_url, params: { user: data })
     end

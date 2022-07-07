@@ -48,7 +48,7 @@ class UsersController < ActionController::Base
   end
 
   def build_params
-    params.require(:user).permit(:username, :email, :password, :borndate)
+    params.require(:user).permit(:username, :email, :password, :borndate, :mobile)
   end
 
   def check_user
